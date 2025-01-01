@@ -1,0 +1,66 @@
+<!-- <!DOCTYPE html>
+<html>
+<body>
+<h1>Hello World</h1>
+<p>I'm hosted with GitHub Pages.</p>
+</body>
+</html>
+ -->
+
+<html>
+    <link rel="icon" href="./NYU.png" sizes="192x192">
+    <link rel="apple-touch-icon" href="./NYU.png">
+    <meta name="msapplication-TileImage" content="./NYU.png">
+<title>
+Page d'accueil d'Arielle Wang
+</title>
+  <body style="overflow-y:scroll">
+    <table width="100%">
+    	<tr>
+		<td valign="top" width="16%">
+		    <img style="width: 204px; height: 306px; float: left;" src="./Patchouli.jpg" alt="" hspace="1" vspace="0">
+		</td>
+
+		<td valign="top" width="84%">
+		    <h1>Arielle Wang (王馨玥)</h1>
+		    <font style="line-height:135%" size="4">
+		    Étudiante en Mathématiques et Informatique <br>
+		    <br>
+		    New York University Shanghaï <br>
+        567 Rue Yangsi Ouest, Nouvelle Zone de Pudong, Shanghaï，200126，Chine <br>
+		    Bureau : Salle WB244 <br>
+		    Courriel : <a href="mailto:ariel@netc.fr">ariel@netc.fr </a> <br>
+		    <br>
+		    Domaines de recherche : N/A.
+		    </font>
+		</td>
+	</tr>
+    </table>
+
+    <hr>
+
+
+    <table width="100%">
+    	<tr>
+		<td width="1%"> </td>
+		<td valign="top" width="15%">
+			<h2><a href="/">Biographie</a></h2>
+			<h2><a href="/publications.html">Publications</a></h2>
+			<h2><a href="https://yourwhitemoon.wordpress.com">Blog</a></h2>
+			<h2><a href="/poems.html">Poèmes</a></h2>
+		</td>
+
+		<td valign="top" width="84%">
+			<h2> Biographie </h2>
+			<font style="line-height:135%" size="4">
+			<p><center><i>Se connaître soi-même est le début de toute sagesse. --Aristote </i></center></p>
+			<p>Je suis actuellement étudiante à la New York University Shanghaï, où je me spécialise en Mathématiques et Informatique. En dehors des mathématiques et de l'informatique, j'ai un intérêt général pour la chimie. Avant de rejoindre NYU Shanghaï, j'étais lycéenne et je me spécialisais dans l'Olympiade de Chimie en Chine (CChO en anglais). </p>
+			<p>J'avais une forte inclination pour la poésie chinoise traditionnelle pendant mes années de lycée (voir mes <a href="/poems.html">poèmes</a>). Je suis une disciple de Friedrich Hayek et de l'école autrichienne d'économie (voir mon <a href="https://yourwhitemoon.wordpress.com">blog anglais</a>). </p>
+
+			<br>
+			</font>
+		</td>
+	</tr>
+    </table>
+  </body>
+</html>
