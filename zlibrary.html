@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
@@ -6,12 +6,70 @@
     <title>Z-Library – 世界上最大的電子圖書館。自由訪問知識和文化。</title>
     <script>
         setTimeout(function() {
-            window.location.href = "https://target.com";
+            window.location.href = "https://zh.z-lib.today";
         }, 2000); // 2000 毫秒（2 秒）
     </script>
 </head>
 <body>
     <h2>正在尋找可用的Zlibrary網址...</h2>
     <h2>請您稍等...</h2>
+</body>
+</html>
+
+ -->
+
+
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>页面跳转中...</title>
+    <style>
+        /* 页面居中 */
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+
+        /* 旋转动画 */
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #ddd;
+            border-top: 5px solid #007bff; /* 蓝色 */
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* 提示文本 */
+        .text {
+            margin-top: 15px;
+            font-size: 18px;
+            color: #555;
+        }
+    </style>
+    <script>
+        // 2秒后跳转到目标网址
+        setTimeout(function() {
+            window.location.href = "https://zh.z-lib.today";
+        }, 2000);
+    </script>
+</head>
+<body>
+    <div class="loader"></div>  <!-- 旋转小圆圈 -->
+    <div class="text">正在尋找可用的Zlibrary網址...</div>
+    <div class = "text">請您稍等...</div><!-- 提示文本 -->
 </body>
 </html>
