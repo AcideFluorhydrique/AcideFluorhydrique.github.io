@@ -31,7 +31,6 @@
 
 
     <style>
-        /* 页面居中 */
         body {
             display: flex;
             flex-direction: column;
@@ -57,7 +56,6 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* 提示文本 */
         .text {
             margin-top: 15px;
             font-size: 18px;
@@ -66,11 +64,12 @@
     </style>
 
     <script>
-    // 連結列表，主要連結放在最前面
     const urls = [
-        "https://zh.z-lib.today", // 主要連結
-        "https://opendelta.org",     // 備用連結 1 (請更換成實際網址)
-        "https://zh.italian-books.sk"      // 備用連結 2 (請更換成實際網址)
+        "https://zh.z-lib.today",
+        "https://opendelta.org", 
+        "https://zh.italian-books.sk"
+        // "https://articles.sk",
+        // "https://z-lib.fm"
     ];
 
     let currentURLIndex = 0; // 目前嘗試的連結索引
@@ -97,9 +96,9 @@
                 if (currentURLIndex === 2) {
                     redirectToNextURL(); // 嘗試備用連結 2
                 }
-            }, 1000); // 再次延遲 (可調整)
+            }, 2000); // 再次延遲 (可調整)
         }
-    }, 500); // 初始延遲時間 (可調整，例如 500 毫秒)
+    }, 2000); // 初始延遲時間 (可調整，例如 500 毫秒)
 
 </script>
 </head>
