@@ -17,19 +17,14 @@
 </html>
 
  -->
-
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Z-Library – 世界上最大的電子圖書館。自由訪問知識和文化。</title>
     <link rel="icon" href="https://z-lib.help/favicon.ico" type="image/x-icon">
     <link rel="apple-touch-icon" href="https://z-lib.help/favicon.ico">
-    
-
-
     <style>
         body {
             display: flex;
@@ -60,53 +55,83 @@
             margin-top: 15px;
             font-size: 18px;
             color: #555;
+            text-align: center; /* 文字居中 */
         }
     </style>
 
     <script>
-    const urls = [
-        "https://zh.z-lib.today",
-        "https://opendelta.org",
-        "https://zh.italian-books.sk"
-        // "https://articles.sk",
-        // "https://z-lib.fm"
-    ];
+        const urls = [
+            "https://zh.z-lib.today",
+            "https://opendelta.org",
+            "https://zh.italian-books.sk"
+            // "https://articles.sk",
+            // "https://z-lib.fm"
+        ];
 
-    let currentURLIndex = 0; // 目前嘗試的連結索引
+        let currentURLIndex = 0; // 目前尝试的链接索引
 
-    function redirectToNextURL() {
-        if (currentURLIndex < urls.length) {
-            window.location.href = urls[currentURLIndex];
-            currentURLIndex++; // 準備下一次嘗試 (如果這次失敗)
-        } else {
-            // 所有連結都嘗試失敗，可以顯示錯誤訊息或執行其他操作
-            alert("所有 Zlibrary 網址都無法訪問，請稍後再試。"); // 簡單的錯誤提示
-        }
-    }
-
-    // **設定初始延遲 2000 毫秒後，才開始嘗試主要連結**
-    setTimeout(function() {
-        redirectToNextURL(); // 初始嘗試主要連結
-
-        // 設定一個短暫的延遲，如果主要連結沒有立即跳轉，就嘗試備用連結
-        setTimeout(function() {
-            // 如果在延遲時間內 currentURLIndex 仍然是 1 (表示第一次嘗試後沒有被重新導向)
-            if (currentURLIndex === 1) {
-                redirectToNextURL(); // 嘗試備用連結 1
-                setTimeout(function() {
-                    if (currentURLIndex === 2) {
-                        redirectToNextURL(); // 嘗試備用連結 2
-                    }
-                }, 2000); // 再次延遲 (可調整)
+        function redirectToNextURL() {
+            if (currentURLIndex < urls.length) {
+                window.location.href = urls[currentURLIndex];
+                currentURLIndex++; // 准备下一次尝试 (如果这次失败)
+            } else {
+                // 所有链接都尝试失败，可以显示错误消息或执行其他操作
+                alert("所有 Zlibrary 网址都无法访问，请稍后重试。"); // 简单的错误提示
             }
-        }, 2000); // 初始延遲時間 (可調整，例如 2000 毫秒)
-    }, 2000); // **初始 2000 毫秒延遲**
+        }
 
-</script>
+        // 设置初始延迟 2000 毫秒后，才开始尝试主要链接
+        setTimeout(function() {
+            redirectToNextURL(); // 初始尝试主要链接
+
+            // 设置一个短暂的延迟，如果主要链接没有立即跳转，就尝试备用链接
+            setTimeout(function() {
+                // 如果在延迟时间内 currentURLIndex 仍然是 1 (表示第一次尝试后没有被重定向)
+                if (currentURLIndex === 1) {
+                    redirectToNextURL(); // 尝试备用链接 1
+                    setTimeout(function() {
+                        if (currentURLIndex === 2) {
+                            redirectToNextURL(); // 尝试备用链接 2
+                        }
+                    }, 2000); // 再次延迟 (可调整)
+                }
+            }, 2000); // 初始延迟时间 (可调整，例如 2000 毫秒)
+        }, 4000); // 初始 2000 毫秒延迟
+
+
+        // 获取用户 IP 地址和地理位置信息
+        document.addEventListener('DOMContentLoaded', function() { // 确保 DOM 加载完成
+            const ipAddressElement = document.getElementById('ip-address');
+            const locationElement = document.getElementById('location');
+
+            async function fetchIPAndLocation() {
+                ipAddressElement.textContent = "您的IP：正在加载..."; // 显示加载状态
+                locationElement.textContent = "大致地理位置：正在加载...";
+
+                try {
+                    const response = await fetch('https://ipapi.co/json/'); // 使用 ipapi.co API
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    const data = await response.json();
+
+                    ipAddressElement.textContent = `您的IP：${data.ip}`; // 更新 IP 地址
+                    locationElement.textContent = `大致地理位置：${data.city}, ${data.country_name}`; // 更新地理位置
+
+                } catch (error) {
+                    console.error("获取 IP 地址和地理位置信息失败:", error);
+                    ipAddressElement.textContent = "您的IP：获取失败"; // 显示错误信息
+                    locationElement.textContent = "大致地理位置：获取失败";
+                }
+            }
+
+            fetchIPAndLocation(); // 调用函数开始获取信息
+        });
+
+
+    </script>
 </head>
 <body>
-    <div class="loader"></div>  <!-- 旋转小圆圈 -->
-    <div class="text">正在尋找可用的Zlibrary網址...</div>
-    <div class = "text">請您稍等...</div><!-- 提示文本 -->
-</body>
+    <div class="loader"></div>  <div class="text">正在尋找可用的Zlibrary網址...</div>
+    <div class="text">請您稍等...</div><div class="text" id="ip-address"></div>  <div class="text" id="location"></div>   </body>
 </html>
