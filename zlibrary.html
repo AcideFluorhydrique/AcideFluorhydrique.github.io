@@ -19,21 +19,15 @@
  -->
 
 
-
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Z-Library – 世界上最大的電子圖書館。自由訪問知識和文化。</title>
     <link rel="icon" href="https://z-lib.help/favicon.ico" type="image/x-icon">
     <link rel="apple-touch-icon" href="https://z-lib.help/favicon.ico">
-    
-
-
     <style>
-        /* 页面居中 */
         body {
             display: flex;
             flex-direction: column;
@@ -42,14 +36,14 @@
             height: 100vh;
             background-color: #f8f9fa;
             font-family: Arial, sans-serif;
+            margin: 0;
         }
 
-        /* 旋转动画 */
         .loader {
             width: 50px;
             height: 50px;
             border: 5px solid #ddd;
-            border-top: 5px solid #007bff; /* 蓝色 */
+            border-top: 5px solid #007bff;
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
@@ -63,53 +57,85 @@
             margin-top: 15px;
             font-size: 18px;
             color: #555;
+            text-align: center;
         }
-    </style><script>
+
+        #retry {
+            margin-top: 20px;
+            padding: 8px 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="loader"></div>
+    <div class="text" id="status">正在尋找可用的Zlibrary網址...</div>
+    <div class="text">請您稍等...</div>
+    <button id="retry">重新檢測</button>
+
+    <script>
         const urls = [
-            "https://zh.z-lib.today", 
-            "https://opendelta.org", 
+            "https://zh.z-lib.today",
+            "https://opendelta.org",
             "https://z-lib.help",
             "https://zh.openzlib.link",
             "https://zh.italian-books.sk"
         ];
 
         let currentIndex = 0;
+        const statusEl = document.getElementById("status");
+        const retryBtn = document.getElementById("retry");
 
-        function updateText(message) {
-            document.getElementById("status").innerText = message;
+        async function checkUrl(url) {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 5000);
+
+            try {
+                const response = await fetch(url, {
+                    method: "HEAD",
+                    redirect: "error",
+                    signal: controller.signal
+                });
+                return response.ok;
+            } catch (error) {
+                return false;
+            } finally {
+                clearTimeout(timeoutId);
+            }
         }
 
-        function checkUrl(url, callback) {
-            fetch(url, { method: "HEAD", mode: "no-cors" })
-                .then(() => callback(true)) 
-                .catch(() => callback(false));
-        }
-
-        function tryNextUrl() {
+        async function tryNextUrl() {
             if (currentIndex >= urls.length) {
-                updateText("所有鏈接都不可用，請稍後重試...");
+                statusEl.textContent = "所有鏈接都不可用";
+                retryBtn.style.display = "block";
                 return;
             }
 
-            updateText(`正在嘗試連接: ${urls[currentIndex]}...`);
-            checkUrl(urls[currentIndex], function(isAvailable) {
-                if (isAvailable || currentIndex === urls.length - 1) {
-                    window.location.href = urls[currentIndex];
-                } else {
-                    currentIndex++;
-                    setTimeout(tryNextUrl, 1000);
-                }
-            });
+            const currentUrl = urls[currentIndex];
+            statusEl.textContent = `正在檢測: ${new URL(currentUrl).hostname}...`;
+
+            const isAvailable = await checkUrl(currentUrl);
+            
+            if (isAvailable) {
+                window.location.href = currentUrl;
+            } else {
+                currentIndex++;
+                setTimeout(tryNextUrl, 500); 
+            }
         }
 
-        window.onload = function() {
+        retryBtn.addEventListener("click", () => {
+            currentIndex = 0;
+            retryBtn.style.display = "none";
             tryNextUrl();
-        };
+        });
+
+        window.onload = tryNextUrl;
     </script>
-</head>
-<body>
-    <div class="loader"></div>  <!-- 旋转小圆圈 -->
-    <div class="text">正在尋找可用的Zlibrary網址...</div>
-    <div class = "text">請您稍等...</div><!-- 提示文本 -->
 </body>
 </html>
