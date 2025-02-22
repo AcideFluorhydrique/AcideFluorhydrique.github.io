@@ -66,7 +66,7 @@
     <script>
     const urls = [
         "https://zh.z-lib.today",
-        "https://opendelta.org", 
+        "https://opendelta.org",
         "https://zh.italian-books.sk"
         // "https://articles.sk",
         // "https://z-lib.fm"
@@ -84,21 +84,23 @@
         }
     }
 
-    // 初始嘗試主要連結
-    redirectToNextURL();
-
-    // 設定一個短暫的延遲，如果主要連結沒有立即跳轉，就嘗試備用連結
+    // **設定初始延遲 2000 毫秒後，才開始嘗試主要連結**
     setTimeout(function() {
-        // 如果在延遲時間內 currentURLIndex 仍然是 1 (表示第一次嘗試後沒有被重新導向)
-        if (currentURLIndex === 1) {
-            redirectToNextURL(); // 嘗試備用連結 1
-            setTimeout(function() {
-                if (currentURLIndex === 2) {
-                    redirectToNextURL(); // 嘗試備用連結 2
-                }
-            }, 2000); // 再次延遲 (可調整)
-        }
-    }, 2000); // 初始延遲時間 (可調整，例如 500 毫秒)
+        redirectToNextURL(); // 初始嘗試主要連結
+
+        // 設定一個短暫的延遲，如果主要連結沒有立即跳轉，就嘗試備用連結
+        setTimeout(function() {
+            // 如果在延遲時間內 currentURLIndex 仍然是 1 (表示第一次嘗試後沒有被重新導向)
+            if (currentURLIndex === 1) {
+                redirectToNextURL(); // 嘗試備用連結 1
+                setTimeout(function() {
+                    if (currentURLIndex === 2) {
+                        redirectToNextURL(); // 嘗試備用連結 2
+                    }
+                }, 2000); // 再次延遲 (可調整)
+            }
+        }, 2000); // 初始延遲時間 (可調整，例如 2000 毫秒)
+    }, 2000); // **初始 2000 毫秒延遲**
 
 </script>
 </head>
