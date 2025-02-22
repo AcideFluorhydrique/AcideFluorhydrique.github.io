@@ -59,18 +59,52 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* 提示文本 */
         .text {
             margin-top: 15px;
             font-size: 18px;
             color: #555;
         }
-    </style>
-    <script>
-        // 2秒后跳转到目标网址
-        setTimeout(function() {
-            window.location.href = "https://zh.z-lib.today";
-        }, 2000);
+    </style><script>
+        const urls = [
+            "https://zh.z-lib.today", 
+            "https://opendelta.org", 
+            "https://z-lib.help",
+            "https://zh.openzlib.link",
+            "https://zh.italian-books.sk"
+        ];
+
+        let currentIndex = 0;
+
+        function updateText(message) {
+            document.getElementById("status").innerText = message;
+        }
+
+        function checkUrl(url, callback) {
+            fetch(url, { method: "HEAD", mode: "no-cors" })
+                .then(() => callback(true)) 
+                .catch(() => callback(false));
+        }
+
+        function tryNextUrl() {
+            if (currentIndex >= urls.length) {
+                updateText("所有鏈接都不可用，請稍後重試...");
+                return;
+            }
+
+            updateText(`正在嘗試連接: ${urls[currentIndex]}...`);
+            checkUrl(urls[currentIndex], function(isAvailable) {
+                if (isAvailable || currentIndex === urls.length - 1) {
+                    window.location.href = urls[currentIndex];
+                } else {
+                    currentIndex++;
+                    setTimeout(tryNextUrl, 1000);
+                }
+            });
+        }
+
+        window.onload = function() {
+            tryNextUrl();
+        };
     </script>
 </head>
 <body>
