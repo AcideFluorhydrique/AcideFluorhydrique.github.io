@@ -64,12 +64,44 @@
             color: #555;
         }
     </style>
+
     <script>
-        // 2秒后跳转到目标网址
-        setTimeout(function() {
-            window.location.href = "https://zh.z-lib.today";
-        }, 2000);
-    </script>
+    // 連結列表，主要連結放在最前面
+    const urls = [
+        "https://zh.z-lib.today", // 主要連結
+        "https://opendelta.org",     // 備用連結 1 (請更換成實際網址)
+        "https://zh.italian-books.sk"      // 備用連結 2 (請更換成實際網址)
+    ];
+
+    let currentURLIndex = 0; // 目前嘗試的連結索引
+
+    function redirectToNextURL() {
+        if (currentURLIndex < urls.length) {
+            window.location.href = urls[currentURLIndex];
+            currentURLIndex++; // 準備下一次嘗試 (如果這次失敗)
+        } else {
+            // 所有連結都嘗試失敗，可以顯示錯誤訊息或執行其他操作
+            alert("所有 Zlibrary 網址都無法訪問，請稍後再試。"); // 簡單的錯誤提示
+        }
+    }
+
+    // 初始嘗試主要連結
+    redirectToNextURL();
+
+    // 設定一個短暫的延遲，如果主要連結沒有立即跳轉，就嘗試備用連結
+    setTimeout(function() {
+        // 如果在延遲時間內 currentURLIndex 仍然是 1 (表示第一次嘗試後沒有被重新導向)
+        if (currentURLIndex === 1) {
+            redirectToNextURL(); // 嘗試備用連結 1
+            setTimeout(function() {
+                if (currentURLIndex === 2) {
+                    redirectToNextURL(); // 嘗試備用連結 2
+                }
+            }, 1000); // 再次延遲 (可調整)
+        }
+    }, 500); // 初始延遲時間 (可調整，例如 500 毫秒)
+
+</script>
 </head>
 <body>
     <div class="loader"></div>  <!-- 旋转小圆圈 -->
