@@ -76,7 +76,7 @@
                 currentURLIndex++; // 准备下一次尝试 (如果这次失败)
             } else {
                 // 所有链接都尝试失败，可以显示错误消息或执行其他操作
-                alert("所有 Zlibrary 网址都无法访问，请稍后重试。"); // 简单的错误提示
+                alert("所有 Zlibrary 網址都無法訪問，請稍後重試。"); // 简单的错误提示
             }
         }
 
@@ -105,8 +105,8 @@
             const locationElement = document.getElementById('location');
 
             async function fetchIPAndLocation() {
-                ipAddressElement.textContent = "您的IP：正在加载..."; // 显示加载状态
-                locationElement.textContent = "大致地理位置：正在加载...";
+                ipAddressElement.textContent = "您的IP：正在加載..."; // 显示加载状态
+                locationElement.textContent = "大致地理位置：正在加載...";
 
                 try {
                     const response = await fetch('https://ipapi.co/json/'); // 使用 ipapi.co API
@@ -119,9 +119,9 @@
                     locationElement.textContent = `大致地理位置：${data.city}, ${data.country_name}`; // 更新地理位置
 
                 } catch (error) {
-                    console.error("获取 IP 地址和地理位置信息失败:", error);
-                    ipAddressElement.textContent = "您的IP：获取失败"; // 显示错误信息
-                    locationElement.textContent = "大致地理位置：获取失败";
+                    console.error("獲取 IP 地址和地理位置信息失敗:", error);
+                    ipAddressElement.textContent = "您的IP：獲取失敗"; // 显示错误信息
+                    locationElement.textContent = "大致地理位置：獲取失敗";
                 }
             }
 
