@@ -141,21 +141,21 @@
             const savedTheme = localStorage.getItem('theme');
             if (savedTheme) {
                 body.classList.add(savedTheme);
-                themeToggle.textContent = savedTheme === 'dark-mode' ? '🌞' : '🌜';
+                themeToggle.textContent = savedTheme === 'dark-mode' ? '☀️' : '🌙';
             } else {
                 body.classList.add('light-mode');
-                themeToggle.textContent = '🌜';
+                themeToggle.textContent = '🌙';
             }
 
             // 点击按钮切换主题
             themeToggle.addEventListener('click', () => {
                 if (body.classList.contains('light-mode')) {
                     body.classList.replace('light-mode', 'dark-mode');
-                    themeToggle.textContent = '🌞';
+                    themeToggle.textContent = '☀️';
                     localStorage.setItem('theme', 'dark-mode');
                 } else {
                     body.classList.replace('dark-mode', 'light-mode');
-                    themeToggle.textContent = '🌜';
+                    themeToggle.textContent = '🌙';
                     localStorage.setItem('theme', 'light-mode');
                 }
             });
