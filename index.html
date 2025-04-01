@@ -6,7 +6,6 @@
 </body>
 </html>
  -->
-
 <html>
 <head>
     <link rel="icon" href="./NYU.png" sizes="192x192">
@@ -14,10 +13,53 @@
     <meta name="msapplication-TileImage" content="./NYU.png">
     <title>Ariel Wang's Home Page</title>
     <style>
-        body {
-            overflow-y: scroll;
+        /* 亮色模式 */
+        body.light-mode {
             background-color: white;
             color: black;
+        }
+        .light-mode h1, .light-mode h2 {
+            color: black;
+        }
+        .light-mode a {
+            color: blue;
+        }
+        .light-mode a:visited {
+            color: purple;
+        }
+        .light-mode a:hover {
+            color: red;
+        }
+        .light-mode .footer {
+            background-color: #f8f8f8;
+            border-top: 1px solid #ccc;
+        }
+
+        /* 深色模式 */
+        body.dark-mode {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+        .dark-mode h1, .dark-mode h2 {
+            color: #ffffff;
+        }
+        .dark-mode a {
+            color: #bb86fc;
+        }
+        .dark-mode a:visited {
+            color: #3700b3;
+        }
+        .dark-mode a:hover {
+            color: #03dac6;
+        }
+        .dark-mode .footer {
+            background-color: #333333;
+            border-top: 1px solid #555555;
+        }
+
+        /* 通用样式 */
+        body {
+            overflow-y: scroll;
         }
         .profile-image {
             width: 204px;
@@ -29,59 +71,18 @@
             bottom: 0;
             width: 100%;
             text-align: center;
-            background-color: #f8f8f8;
             padding: 10px 0;
-            border-top: 1px solid #ccc;
         }
         .bio-text {
             line-height: 135%;
             font-size: 16px;
         }
-        h1, h2 {
-            color: black;
-        }
-        a {
-            color: blue;
-        }
-        a:visited {
-            color: purple;
-        }
-        a:hover {
-            color: red;
-        }
-        hr {
-            border: 0;
-            height: 1px;
-            background: #ccc;
-        }
-        @media (prefers-color-scheme: dark) {
-            body {
-                background-color: #121212;
-                color: #e0e0e0;
-            }
-            h1, h2 {
-                color: #ffffff;
-            }
-            a {
-                color: #bb86fc;
-            }
-            a:visited {
-                color: #3700b3;
-            }
-            a:hover {
-                color: #03dac6;
-            }
-            .footer {
-                background-color: #333333;
-                border-top: 1px solid #555555;
-            }
-            hr {
-                background: #555555;
-            }
-        }
     </style>
 </head>
-<body>
+<body class="light-mode">
+    <!-- 主题切换按钮 -->
+    <button id="theme-toggle" style="position: fixed; top: 10px; right: 10px; background: none; border: none; font-size: 24px; cursor: pointer;">🌜</button>
+    
     <table width="100%">
         <tr>
             <td valign="top" width="16%">
@@ -102,7 +103,9 @@
             </td>
         </tr>
     </table>
+
     <hr>
+
     <table width="100%">
         <tr>
             <td width="1%"></td>
@@ -123,9 +126,41 @@
             </td>
         </tr>
     </table>
+
     <div class="footer">
         <a href="https://icp.gov.moe/?keyword=20250101" target="_blank">萌ICP备20250101号</a>
     </div>
+
+    <!-- JavaScript逻辑 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeToggle = document.getElementById('theme-toggle');
+            const body = document.body;
+
+            // 检查本地存储中的主题偏好
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                body.classList.add(savedTheme);
+                themeToggle.textContent = savedTheme === 'dark-mode' ? '🌞' : '🌜';
+            } else {
+                body.classList.add('light-mode');
+                themeToggle.textContent = '🌜';
+            }
+
+            // 点击按钮切换主题
+            themeToggle.addEventListener('click', () => {
+                if (body.classList.contains('light-mode')) {
+                    body.classList.replace('light-mode', 'dark-mode');
+                    themeToggle.textContent = '🌞';
+                    localStorage.setItem('theme', 'dark-mode');
+                } else {
+                    body.classList.replace('dark-mode', 'light-mode');
+                    themeToggle.textContent = '🌜';
+                    localStorage.setItem('theme', 'light-mode');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
 <!--   </body>
