@@ -23,8 +23,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Z-Library – 世界上最大的電子圖書館。自由訪問知識和文化。</title>
-    <link rel="icon" href="https://z-lib.help/favicon.ico" type="image/x-icon">
-    <link rel="apple-touch-icon" href="https://z-lib.help/favicon.ico">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body {
@@ -153,17 +153,44 @@
     </footer>
 
     <script>
-        // 定义两个URL数组
+        // 定义URL数组
         const chinaURLs = [
             "https://zlib.su",
             "https://101ml.su",
-            "https://kid1412.my"
+            "https://101ml.gs",
+            "https://z-lib.su", 
+            "https://101ml.fi",
+            "https://101ml.online",
+            "https://opendelta.org",
+            "https://101ml.ru",
+            "https://z-lib.ps"
+        ];
+
+        const japanURLs = [
+            "https://ja.italian-books.sk",
+            "https://ja.z-lib.ps",
+            "https://ja.z-lib.gs",
+            "https://ja.z-library.sk",
+            "https://ja.article.sk"
+        ];
+
+        const koreaURLs = [
+            "https://ko.italian-books.sk",
+            "https://ko.z-lib.ps",
+            "https://ko.z-lib.fm",
+            "https://ko.z-library.sk",
+            "https://ko.article.sk"
+
         ];
 
         const internationalURLs = [
             "https://zh.italian-books.sk",
             "https://z-lib.ps",
-            "https://z-lib.blog"
+            "https://z-lib.blog",
+            "https://1lib.sk",
+            "https://proxy.zlibraryproxies.workers.dev",
+            "https://z-library.sk",
+            "https://article.sk"
         ];
 
         // 尝试跳转的函数
@@ -179,13 +206,13 @@
             // 尝试跳转
             window.location.href = nextURL;
 
-            // 3秒后检查是否跳转成功
+            // 5秒后检查是否跳转成功（从3秒增加到5秒以减少误判）
             setTimeout(() => {
                 if (window.location.href === originalURL) {
                     // 如果URL未改变，说明跳转失败，尝试下一个
                     tryRedirect(urls, index + 1);
                 }
-            }, 3000);
+            }, 5000);
         }
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -204,9 +231,17 @@
                     ipAddressElement.textContent = `您的IP：${data.ip}`;
                     locationElement.textContent = `大致地理位置：${data.city}, ${data.country_name}`;
 
-                    // 判断是否来自中国大陆
-                    const isChina = data.country_name === "China";
-                    const urls = isChina ? chinaURLs : internationalURLs;
+                    // 根据国家选择URL列表
+                    let urls;
+                    if (data.country_name === "China") {
+                        urls = chinaURLs;
+                    } else if (data.country_name === "Japan") {
+                        urls = japanURLs;
+                    } else if (data.country_name === "South Korea") {
+                        urls = koreaURLs;
+                    } else {
+                        urls = internationalURLs;
+                    }
 
                     // 开始尝试跳转
                     tryRedirect(urls, 0);
