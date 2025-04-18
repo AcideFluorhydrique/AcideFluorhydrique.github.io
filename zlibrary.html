@@ -139,19 +139,21 @@
             <a href="https://twitter.com/Z_Lib_official" target="_blank" rel="noopener noreferrer">
                 <i class="fab fa-twitter fa-2x"></i>
             </a>
-            <a href="https://t.me/books_club_101" target="_blank" rel="noopener noreferrer">
+            <!-- <a href="https://t.me/books_club_101" target="_blank" rel="noopener noreferrer">
                 <i class="fab fa-telegram fa-2x"></i>
-            </a>
+            </a> -->
             <a href="https://mastodon.social/@Z_Lib_official" target="_blank" rel="noopener noreferrer">
                 <i class="fab fa-mastodon fa-2x"></i>
             </a>
             <a href="https://www.reddit.com/r/zlibrary" target="_blank" rel="noopener noreferrer" aria-label="Visit Z-Library on Reddit">
                 <i class="fab fa-reddit fa-2x"></i>
-            </a>
+            <!-- </a>
             <a href="https://discord.com/invite/raWRQCk3n5" target="_blank" rel="noopener noreferrer" aria-label="Visit Z-Library on Discord">
                 <i class="fab fa-discord fa-2x"></i>
-            </a>
+            </a> -->
             
+
+            <!-- To be updated -->
             
         </div>
     </div>
@@ -171,35 +173,90 @@
             "https://101ml.online",
             "https://opendelta.org",
             "https://101ml.ru",
-            "https://z-lib.ps"
+            "https://z-lib.ps",
+            "https://1lib.su"
+        ];
+
+        const taiwanURLs = [
+            "https://tw.z-library.sk",
+            "https://tw.italian-books.sk",
+            "https://tw.z-lib.ps",
+            "https://tw.z-lib.gs",
+            "https://tw.article.sk"
         ];
 
         const japanURLs = [
+            "https://ja.z-library.sk",
             "https://ja.italian-books.sk",
             "https://ja.z-lib.ps",
             "https://ja.z-lib.gs",
-            "https://ja.z-library.sk",
             "https://ja.article.sk"
         ];
 
         const koreaURLs = [
+            "https://ko.z-library.sk",
             "https://ko.italian-books.sk",
             "https://ko.z-lib.ps",
             "https://ko.z-lib.fm",
-            "https://ko.z-library.sk",
+            "https://ko.1lib.sk",
             "https://ko.article.sk"
 
         ];
 
+        const germanURLs = [
+            "https://de.z-library.sk",
+            "https://de.italian-books.sk",
+            "https://de.z-lib.ps",
+            "https://de.z-lib.fm",
+            "https://de.1lib.sk",
+            "https://de.article.sk"// 可增加更多备用 URL
+        ];
+
+        const spanishURLs = [
+            "https://es.z-library.sk",
+            "https://es.italian-books.sk",
+            "https://es.z-lib.ps",
+            "https://es.z-lib.fm",
+            "https://es.1lib.sk",
+            "https://es.article.sk"
+            // 可增加更多备用 URL
+        ];
+
+        const frenchURLs = [
+            "https://fr.z-library.sk",
+            "https://fr.italian-books.sk",
+            "https://fr.z-lib.ps",
+            "https://fr.z-lib.fm",
+            "https://fr.1lib.sk",
+            "https://fr.article.sk"
+            // 可增加更多备用 URL
+        ];
+
+        const italianURLs = [
+            "https://italian-books.sk",
+            "https://it.z-library.sk",
+            "https://it.1lib.sk",
+            "https://it.z-lib.ps",
+            "https://it.z-lib.fm",
+            "https://it.1lib.sk",
+            "https://it.article.sk"
+
+            // 可增加更多备用 URL
+        ];
+
         const internationalURLs = [
-            "https://zh.italian-books.sk",
             "https://z-lib.ps",
+            "https://1lib.su",
+            "https://en.italian-books.sk",
+            "https://z-lib.hk",
             "https://z-lib.blog",
             "https://1lib.sk",
             "https://proxy.zlibraryproxies.workers.dev",
             "https://z-library.sk",
             "https://article.sk"
         ];
+
+        
 
         // 尝试跳转的函数
         function tryRedirect(urls, index) {
@@ -240,15 +297,67 @@
                     locationElement.textContent = `大致地理位置：${data.city}, ${data.country_name}`;
 
                     // 根据国家选择URL列表
+
                     let urls;
-                    if (data.country_name === "China") {
+                    if (data.country_name === "China") { // 中国大陆
                         urls = chinaURLs;
-                    } else if (data.country_name === "Japan") {
+
+                    } else if (
+                        data.country_name === "Hong Kong" || // 港澳臺
+                        data.country_name === "Taiwan" ||
+                        data.country_name === "Macau"
+                    ) {
+                        urls = taiwanURLs;
+
+                    } else if (data.country_name === "Japan") { // 日本国
                         urls = japanURLs;
-                    } else if (data.country_name === "South Korea") {
+
+                    } else if (data.country_name === "South Korea") { // 한국（韓國） 
                         urls = koreaURLs;
+
+                    } else if (
+                        data.country_name === "France" || // Français
+                        data.country_name === "Belgium" ||
+                        data.country_name === "Switzerland" ||
+                        data.country_name === "Canada"
+                    ) {
+                        urls = frenchURLs;   
+
+                    } else if (
+                        data.country_name === "Germany" || // Deutsch
+                        // data.country_name === "Switzerland" ||
+                        data.country_name === "Austria" ||
+                        data.country_name === "Liechtenstein"
+                    ) {
+                        urls = germanURLs;
+
+                    } else if (
+                        data.country_name === "Spain" || // Español
+
+                        data.country_name === "Argentina" ||
+                        data.country_name === "Colombia" ||
+                        data.country_name === "Peru" ||
+                        data.country_name === "Venezuela" ||
+                        data.country_name === "Ecuador" ||
+                        data.country_name === "Bolivia" ||
+                        data.country_name === "Paraguay" ||
+                        data.country_name === "Costa Rica" ||
+                        data.country_name === "Guatemala" ||
+                        data.country_name === "Chile"
+                    ) {
+                        urls = spanishURLs;
+
+                    } else if (
+                        data.country_name === "Italy" || // Italiano
+                        data.country_name === "San Marino" ||
+                        data.country_name === "Holy See" ||
+                        data.country_name === "Vatican City"
+                    ) {
+                        urls = italianURLs;
+
+
                     } else {
-                        urls = internationalURLs;
+                        urls = internationalURLs; // English
                     }
 
                     // 开始尝试跳转
