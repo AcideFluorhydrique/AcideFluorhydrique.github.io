@@ -1,1 +1,212 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Z-Library – 世界上最大的電子圖書館。自由訪問知識和文化。</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="favicon.ico">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        // 定义URL数组
+        const chinaURLs = [
+            "https://zlib.su",
+            "https://101ml.su",
+            "https://101ml.gs",
+            "https://z-lib.su", 
+            "https://101ml.fi",
+            "https://101ml.online",
+            "https://opendelta.org",
+            "https://101ml.ru",
+            "https://z-lib.ps",
+            "https://1lib.su",
+            "https://101loveyou.ru",
+            "https://101orpheus.su"
+        ];
 
+        const taiwanURLs = [
+            "https://tw.z-library.sk",
+            "https://tw.italian-books.sk",
+            "https://tw.z-lib.ps",
+            "https://tw.z-lib.gs",
+            "https://tw.article.sk",
+            "https://tw.101ml.fi",
+        ];
+
+        const japanURLs = [
+            "https://ja.z-library.sk",
+            "https://ja.italian-books.sk",
+            "https://ja.z-lib.ps",
+            "https://ja.z-lib.gs",
+            "https://ja.article.sk",
+            "https://ja.101ml.fi"
+        ];
+
+        const koreaURLs = [
+            "https://ko.z-library.sk",
+            "https://ko.italian-books.sk",
+            "https://ko.z-lib.ps",
+            "https://ko.z-lib.fm",
+            "https://ko.1lib.sk",
+            "https://ko.article.sk",
+            "https://ko.101ml.fi"
+        ];
+
+        const germanURLs = [
+            "https://de.z-library.sk",
+            "https://de.italian-books.sk",
+            "https://de.z-lib.ps",
+            "https://de.z-lib.fm",
+            "https://de.1lib.sk",
+            "https://de.article.sk",
+            "https://de.101ml.fi"
+        ];
+
+        const spanishURLs = [
+            "https://es.z-library.sk",
+            "https://es.italian-books.sk",
+            "https://es.z-lib.ps",
+            "https://es.z-lib.fm",
+            "https://es.1lib.sk",
+            "https://es.article.sk",
+            "https://es.101ml.fi"
+        ];
+
+        const frenchURLs = [
+            "https://fr.z-library.sk",
+            "https://fr.italian-books.sk",
+            "https://fr.z-lib.ps",
+            "https://fr.z-lib.fm",
+            "https://fr.1lib.sk",
+            "https://fr.article.sk",
+            "https://fr.101ml.fi"
+        ];
+
+        const italianURLs = [
+            "https://italian-books.sk",
+            "https://it.z-library.sk",
+            "https://it.1lib.sk",
+            "https://it.z-lib.ps",
+            "https://it.z-lib.fm",
+            "https://it.1lib.sk",
+            "https://it.article.sk",
+            "https://it.101ml.fi"
+        ];
+
+        const internationalURLs = [
+            "https://z-lib.ps",
+            "https://1lib.su",
+            "https://en.italian-books.sk",
+            "https://z-lib.hk",
+            "https://z-lib.blog",
+            "https://1lib.sk",
+            "https://proxy.zlibraryproxies.workers.dev",
+            "https://z-library.sk",
+            "https://article.sk",
+            "https://101loveyou.ru",
+            "https://101orpheus.su",
+            "https://101ml.fi"
+        ];
+
+        // 尝试跳转的函数
+        function tryRedirect(urls, index) {
+            if (index >= urls.length) {
+                alert("所有網址都無法訪問，請稍後重試。");
+                return;
+            }
+
+            const nextURL = urls[index];
+            const originalURL = window.location.href;
+
+            // 尝试跳转
+            window.location.href = nextURL;
+
+            // 5秒后检查是否跳转成功
+            setTimeout(() => {
+                if (window.location.href === originalURL) {
+                    // 如果URL未改变，说明跳转失败，尝试下一个
+                    tryRedirect(urls, index + 1);
+                }
+            }, 5000);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            async function fetchIPAndLocation() {
+                try {
+                    const response = await fetch('https://ipapi.co/json/');
+                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                    
+                    const data = await response.json();
+                    let urls;
+                    if (data.country_name === "China") {
+                        urls = chinaURLs;
+                    } else if (
+                        data.country_name === "Hong Kong" ||
+                        data.country_name === "Taiwan" ||
+                        data.country_name === "Macau"
+                    ) {
+                        urls = taiwanURLs;
+                    } else if (data.country_name === "Japan") {
+                        urls = japanURLs;
+                    } else if (data.country_name === "South Korea") {
+                        urls = koreaURLs;
+                    } else if (
+                        data.country_name === "France" ||
+                        data.country_name === "Belgium" ||
+                        data.country_name === "Switzerland" ||
+                        data.country_name === "Canada"
+                    ) {
+                        urls = frenchURLs;
+                    } else if (
+                        data.country_name === "Germany" ||
+                        data.country_name === "Austria" ||
+                        data.country_name === "Liechtenstein"
+                    ) {
+                        urls = germanURLs;
+                    } else if (
+                        data.country_name === "Spain" ||
+                        data.country_name === "Argentina" ||
+                        data.country_name === "Colombia" ||
+                        data.country_name === "Peru" ||
+                        data.country_name === "Venezuela" ||
+                        data.country_name === "Ecuador" ||
+                        data.country_name === "Bolivia" ||
+                        data.country_name === "Paraguay" ||
+                        data.country_name === "Costa Rica" ||
+                        data.country_name === "Guatemala" ||
+                        data.country_name === "Chile"
+                    ) {
+                        urls = spanishURLs;
+                    } else if (
+                        data.country_name === "Italy" ||
+                        data.country_name === "San Marino" ||
+                        data.country_name === "Holy See" ||
+                        data.country_name === "Vatican City"
+                    ) {
+                        urls = italianURLs;
+                    } else {
+                        urls = internationalURLs;
+                    }
+
+                    // 开始尝试跳转
+                    tryRedirect(urls, 0);
+                } catch (error) {
+                    console.error("獲取信息失敗:", error);
+                    // 如果获取失败，默认使用国际URL
+                    tryRedirect(internationalURLs, 0);
+                }
+            }
+
+            fetchIPAndLocation();
+        });
+    </script>
+</body>
+</html>
