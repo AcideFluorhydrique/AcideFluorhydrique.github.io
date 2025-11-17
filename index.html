@@ -6,148 +6,336 @@
 </body>
 </html>
  -->
-<html>
+
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="./NYU.png" sizes="192x192">
     <link rel="apple-touch-icon" href="./NYU.png">
     <meta name="msapplication-TileImage" content="./NYU.png">
     <title>Ariel Wang's Home Page</title>
     <style>
         /* 亮色模式 */
-        body.light-mode {
-            background-color: white;
-            color: black;
-        }
-        .light-mode h1, .light-mode h2 {
-            color: black;
-        }
-        .light-mode a {
-            color: blue;
-        }
-        .light-mode a:visited {
-            color: purple;
-        }
-        .light-mode a:hover {
-            color: red;
-        }
-        .light-mode .footer {
-            background-color: #f8f8f8;
-            border-top: 1px solid #ccc;
+        :root {
+            /* 亮色變量 */
+            --bg-color: white;
+            --text-color: #333; /* 使用深灰色文字，避免純黑過於刺眼 */
+            --heading-color: #222;
+            --link-color: #007bff;
+            --link-visited-color: #6610f2;
+            --link-hover-color: #dc3545;
+            --hr-color: #ddd;
+            --footer-bg: #f8f9fa;
+            --footer-border: 1px solid #e9ecef;
+            --main-container-bg: white;
+            --nav-link-color: #007bff;
         }
 
-        /* 深色模式 */
+        /* 深色模式變量 */
         body.dark-mode {
-            background-color: #202124; /* Google风格的深灰色 */
-            color: #e8eaed; /* 浅灰色文字，柔和不刺眼 */
-        }
-        .dark-mode h1, .dark-mode h2 {
-            color: #ffffff; /* 标题保持白色 */
-        }
-        .dark-mode a {
-            color: #8ab4f8; /* Google风格的浅蓝色链接 */
-        }
-        .dark-mode a:visited {
-            color: #c58af9; /* 已访问链接为浅紫色 */
-        }
-        .dark-mode a:hover {
-            color: #fdd663; /* 悬停时为亮黄色，提升可见性 */
-        }
-        .dark-mode .footer {
-            background-color: #303134; /* 页脚使用稍深的灰色 */
-            border-top: 1px solid #5f6368; /* 边框为中灰色 */
+            --bg-color: #1a1a1a; /* 更柔和的深色背景 */
+            --text-color: #e8eaed;
+            --heading-color: #ffffff;
+            --link-color: #8ab4f8;
+            --link-visited-color: #c58af9;
+            --link-hover-color: #fdd663;
+            --hr-color: #444;
+            --footer-bg: #2a2a2a;
+            --footer-border: 1px solid #444;
+            --main-container-bg: #222;
+            --nav-link-color: #8ab4f8;
         }
 
         /* 通用样式 */
         body {
-            overflow-y: scroll;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0 0 70px 0; /* 底部留出空间給 footer */
+            transition: background-color 0.3s, color 0.3s;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
         }
+
+        /* 主內容容器 */
+        .container {
+            max-width: 1000px; /* 限制內容最大寬度 */
+            margin: 40px auto; /* 居中 */
+            padding: 0 20px;
+        }
+        
+        h1, h2 {
+            color: var(--heading-color);
+            margin-top: 0;
+        }
+
+        h2 {
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        a {
+            color: var(--link-color);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        a:visited {
+            color: var(--link-visited-color);
+        }
+
+        a:hover {
+            color: var(--link-hover-color);
+            text-decoration: underline;
+        }
+
+        .bio-text {
+            line-height: 1.6;
+            font-size: 17px;
+        }
+
+        /* 頂部簡介區塊 (Flexbox) */
+        .profile-header {
+            display: flex;
+            gap: 30px; /* 圖片和文字之間的間距 */
+            align-items: flex-start;
+            margin-bottom: 40px;
+        }
+
+        .profile-image-container {
+            flex-shrink: 0; /* 防止圖片被壓縮 */
+        }
+
         .profile-image {
-            width: 204px;
-            height: 306px;
-            float: left;
+            width: 150px; /* 調整圖片大小，更符合專業網站標準 */
+            height: auto;
+            border-radius: 8px; /* 圓角 */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 輕微陰影 */
+            object-fit: cover;
+            /* 調整圖片長寬比的樣式 */
+            /* width: 204px;
+            height: 306px; */
         }
+
+        .profile-info {
+            flex-grow: 1;
+        }
+
+        /* 導航欄樣式 (Flexbox) */
+        .main-nav {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column; /* 垂直導航 */
+            gap: 10px;
+            margin-right: 30px;
+        }
+
+        .main-nav a {
+            font-size: 1.1em;
+            font-weight: 500;
+            padding: 5px 0;
+            display: block;
+            color: var(--nav-link-color);
+        }
+
+        /* 內容區塊 (Flexbox) */
+        .content-section {
+            display: flex;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .sidebar {
+            width: 200px;
+            flex-shrink: 0;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            padding-left: 20px;
+            border-left: 1px solid var(--hr-color); /* 添加垂直分割線 */
+        }
+
+        .quote {
+            text-align: center;
+            font-style: italic;
+            margin: 20px 0;
+            padding: 10px;
+            border-left: 5px solid var(--link-color);
+            background-color: rgba(128, 128, 128, 0.05);
+        }
+
+        /* 主題切換按鈕 */
+        #theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--main-container-bg);
+            border: 1px solid var(--hr-color);
+            color: var(--text-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 18px;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: background 0.3s, border 0.3s;
+        }
+
+        #theme-toggle:hover {
+            opacity: 0.8;
+        }
+
+        /* 頁腳 */
         .footer {
             position: fixed;
             bottom: 0;
             width: 100%;
             text-align: center;
-            padding: 10px 0;
+            padding: 15px 0;
+            background-color: var(--footer-bg);
+            border-top: var(--footer-border);
+            font-size: 0.9em;
+            z-index: 900;
         }
-        .bio-text {
-            line-height: 135%;
-            font-size: 16px;
+        
+        /* 響應式設計 */
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px auto;
+                padding: 0 15px;
+            }
+
+            .profile-header {
+                flex-direction: column; /* 圖片和文字垂直堆疊 */
+                align-items: center; /* 居中對齊 */
+                text-align: center;
+            }
+
+            .profile-info h1 {
+                margin-top: 10px;
+            }
+
+            .content-section {
+                flex-direction: column; /* 導航和內容垂直堆疊 */
+            }
+
+            .sidebar {
+                width: 100%;
+                border-bottom: 1px solid var(--hr-color);
+                padding-bottom: 10px;
+            }
+
+            .main-content {
+                padding-left: 0;
+                border-left: none;
+                padding-top: 10px;
+            }
+
+            .main-nav {
+                flex-direction: row; /* 導航連結改為水平排列 */
+                justify-content: center;
+                gap: 20px;
+            }
+
+            .main-nav a {
+                font-size: 1em;
+            }
+
+            #theme-toggle {
+                top: 10px;
+                right: 10px;
+                width: 35px;
+                height: 35px;
+                font-size: 16px;
+            }
         }
     </style>
 </head>
 <body class="light-mode">
-    <!-- 主题切换按钮 -->
-    <button id="theme-toggle" style="position: fixed; top: 10px; right: 10px; background: none; border: none; font-size: 24px; cursor: pointer;">🌜</button>
-    
-    <table width="100%">
-        <tr>
-            <td valign="top" width="16%">
-                <img class="profile-image" src="./Patchouli.jpg" alt="" hspace="1" vspace="0">
-            </td>
-            <td valign="top" width="84%">
+    <button id="theme-toggle" aria-label="切換深色/亮色模式">🌙</button>
+
+    <div class="container">
+        <header class="profile-header">
+            <div class="profile-image-container">
+                <img class="profile-image" src="./Patchouli.jpg" alt="個人頭像" title="Ariel Wang">
+            </div>
+            <div class="profile-info">
                 <h1>Ariel Wang (王馨玥)</h1>
                 <div class="bio-text">
-                    Mathematics and Computer Science student <br>
-                    <br>
-                    New York University Shanghai <br>
-                    567 West Yangsi Road, Pudong New District, Shanghai, China 200126 <br>
-                    Office: Room WB244 <br>
-                    Email: <a href="mailto:ariel@netc.fr">ariel@netc.fr </a> <br>
-                    <br>
-                    Research interests: N/A.
+                    <p>
+                        Mathematics and Computer Science student <br>
+                        <strong>New York University Shanghai</strong>
+                    </p>
+                    <p>
+                        567 West Yangsi Road, Pudong New District, Shanghai, China 200126 <br>
+                        Office: Room WB244 <br>
+                        Email: <a href="mailto:ariel@netc.fr">ariel@netc.fr </a>
+                    </p>
+                    <p>
+                        Research interests: N/A.
+                    </p>
                 </div>
-            </td>
-        </tr>
-    </table>
+            </div>
+        </header>
 
-    <hr>
+        <hr style="border: none; border-top: 1px solid var(--hr-color);">
 
-    <table width="100%">
-        <tr>
-            <td width="1%"></td>
-            <td valign="top" width="15%">
-                <h2><a href="/">Biography</a></h2>
-                <h2><a href="/languages.html">Languages</a></h2>
-                <h2><a href="https://yourwhitemoon.wordpress.com">Blog</a></h2>
-                <h2><a href="/poems.html">Poems</a></h2>
-            </td>
-            <td valign="top" width="84%">
+        <main class="content-section">
+            <nav class="sidebar">
+                <ul class="main-nav">
+                    <li><a href="/">Biography</a></li>
+                    <li><a href="/languages.html">Languages</a></li>
+                    <li><a href="https://yourwhitemoon.wordpress.com">Blog</a></li>
+                    <li><a href="/poems.html">Poems</a></li>
+                </ul>
+            </nav>
+
+            <section class="main-content">
                 <h2>Biography</h2>
                 <div class="bio-text">
-                    <p><center><i>Knowing yourself is the beginning of all wisdom. --Aristotle</i></center></p>
-                    <p>I am currently a student at New York University Shanghai majoring in Mathematics and Computer Science. Besides mathematics and computer science, I have a general interest in chemistry. Before joining NYU Shanghai, I was a high school student majoring in Chinese Chemistry Olympiad.</p>
-                    <p>I used to have a strong inclination in traditional Chinese poetry in my high school (see my <a href="/poems.html">poems</a>). I am a disciple of Friedrich Hayek and the Austrian school of economics (see my <a href="https://yourwhitemoon.wordpress.com">blog</a>).</p>
-                    <br>
+                    <p class="quote"><i>Knowing yourself is the beginning of all wisdom. --Aristotle</i></p>
+                    <p>
+                        I am currently a student at **New York University Shanghai** majoring in **Mathematics** and **Computer Science**. Besides mathematics and computer science, I have a general interest in chemistry. Before joining NYU Shanghai, I was a high school student majoring in Chinese Chemistry Olympiad.
+                    </p>
+                    <p>
+                        I used to have a strong inclination in traditional Chinese poetry in my high school (see my <a href="/poems.html">poems</a>). I am a disciple of Friedrich Hayek and the Austrian school of economics (see my <a href="https://yourwhitemoon.wordpress.com">blog</a>).
+                    </p>
                 </div>
-            </td>
-        </tr>
-    </table>
-
-    <div class="footer">
-        <a href="https://icp.gov.moe/?keyword=20250101" target="_blank">萌ICP备20250101号</a>
+            </section>
+        </main>
     </div>
 
-    <!-- JavaScript逻辑 -->
+    <footer class="footer">
+        <a href="https://icp.gov.moe/?keyword=20250101" target="_blank">萌ICP备20250101号</a>
+    </footer>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const themeToggle = document.getElementById('theme-toggle');
             const body = document.body;
 
-            // 检查本地存储中的主题偏好
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme) {
-                body.classList.add(savedTheme);
-                themeToggle.textContent = savedTheme === 'dark-mode' ? '☀️' : '🌙';
-            } else {
-                body.classList.add('light-mode');
-                themeToggle.textContent = '🌙';
+            // 檢查本地存儲中的主題偏好或系統偏好
+            const systemPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            let savedTheme = localStorage.getItem('theme');
+
+            if (!savedTheme) {
+                // 如果沒有本地存儲，則根據系統偏好設定初始主題
+                savedTheme = systemPrefersDark ? 'dark-mode' : 'light-mode';
             }
 
-            // 点击按钮切换主题
+            // 應用主題
+            body.classList.add(savedTheme);
+            themeToggle.textContent = savedTheme === 'dark-mode' ? '☀️' : '🌙';
+
+            // 點擊按鈕切換主題
             themeToggle.addEventListener('click', () => {
                 if (body.classList.contains('light-mode')) {
                     body.classList.replace('light-mode', 'dark-mode');
@@ -163,6 +351,13 @@
     </script>
 </body>
 </html>
+
+
+
+
+
+
+
 <!--   </body>
 Jan 1, 2025
 Update index.html
