@@ -1,175 +1,723 @@
-<html>
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ariel McLaughlin's Poems</title>
     <link rel="icon" href="./NYU.png" sizes="192x192">
     <link rel="apple-touch-icon" href="./NYU.png">
     <meta name="msapplication-TileImage" content="./NYU.png">
-<title>
-Ariel Wang's Poem
-</title>
-  <body style="overflow-y:scroll">
-    <table width="100%">
-    	<tr>
-		<td valign="top" width="16%">
-		    <img style="width: 204px; height: 306px; float: left;" src="./Patchouli.jpg" alt="" hspace="1" vspace="0">
-		</td>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-		<td valign="top" width="84%">
-		    <h1>Ariel Wang (王馨玥)</h1>
-		    <font style="line-height:135%" size="4">
-		    Mathematics and Computer Science student <br>
-		    <br>
-		    New York University Shanghai <br>
-		    567 West Yangsi Road, Pudong New District, Shanghai, China 200126 <br>
-		    Office: Room WB244 <br>
-		    Email: <a href="mailto:ariel@netc.fr">ariel@netc.fr </a> <br>
-		    <br>
-		    Research interests: N/A.
-		    </font>
-		</td>
-	</tr>
-    </table>
+        /* CSS变量 - 浅色模式 */
+        :root {
+            --bg-gradient-start: #f5f1e8;
+            --bg-gradient-end: #e8f4f0;
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --card-border: rgba(100, 150, 130, 0.2);
+            --card-shadow: rgba(0, 0, 0, 0.08);
+            --text-primary: #2c3e50;
+            --text-secondary: #546e7a;
+            --text-muted: #90a4ae;
+            --accent-color: #4a7c59;
+            --accent-light: #6b9b7f;
+            --title-color: #1e3932;
+            --quote-color: #95a5a6;
+            --toggle-bg: #2c3e50;
+            --toggle-icon: #f39c12;
+        }
 
-    <hr>
+        /* 深色模式变量 */
+        [data-theme="dark"] {
+            --bg-gradient-start: #1a1625;
+            --bg-gradient-end: #2d1b3d;
+            --card-bg: rgba(40, 30, 50, 0.8);
+            --card-border: rgba(139, 107, 165, 0.3);
+            --card-shadow: rgba(0, 0, 0, 0.3);
+            --text-primary: #e8dff5;
+            --text-secondary: #c4b5d4;
+            --text-muted: #9381a8;
+            --accent-color: #d4af37;
+            --accent-light: #f0d078;
+            --title-color: #f0d078;
+            --quote-color: #8b6ba5;
+            --toggle-bg: #f0d078;
+            --toggle-icon: #2d1b3d;
+        }
+
+        body {
+            font-family: 'Noto Serif SC', 'STSong', 'SimSun', serif;
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.8;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        /* 主题切换按钮 */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--toggle-bg);
+            border: 2px solid var(--accent-color);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px var(--card-shadow);
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1) rotate(15deg);
+            box-shadow: 0 6px 20px var(--card-shadow);
+        }
+
+        .theme-toggle svg {
+            width: 24px;
+            height: 24px;
+            fill: var(--toggle-icon);
+            transition: transform 0.3s ease;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* 页面标题 */
+        .page-header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 40px 20px;
+            background: var(--card-bg);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px var(--card-shadow);
+            border: 1px solid var(--card-border);
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            color: var(--title-color);
+            margin-bottom: 20px;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .page-quote {
+            font-style: italic;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            padding: 0 30px;
+        }
+
+        .page-description {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        /* 诗歌卡片 */
+        .poem-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 35px;
+            margin-bottom: 30px;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 4px 20px var(--card-shadow);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .poem-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--accent-color) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .poem-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px var(--card-shadow);
+            border-color: var(--accent-color);
+        }
+
+        .poem-card:hover::before {
+            opacity: 0.05;
+        }
+
+        /* 诗歌头部 */
+        .poem-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--card-border);
+        }
+
+        .poem-title {
+            font-size: 1.6rem;
+            color: var(--accent-color);
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .poem-date {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-family: 'Noto Sans SC', sans-serif;
+            padding: 5px 12px;
+            background: var(--card-border);
+            border-radius: 20px;
+            white-space: nowrap;
+        }
+
+        /* 诗歌内容 */
+        .poem-content {
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            line-height: 2;
+            white-space: pre-line;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .page-quote {
+                font-size: 1rem;
+                padding: 0 15px;
+            }
+
+            .poem-card {
+                padding: 25px;
+            }
+
+            .poem-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .poem-title {
+                font-size: 1.3rem;
+            }
+
+            .poem-content {
+                font-size: 1rem;
+            }
+
+            .theme-toggle {
+                top: 15px;
+                right: 15px;
+                width: 45px;
+                height: 45px;
+            }
+        }
+
+        /* 加载动画 */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .poem-card {
+            animation: fadeIn 0.6s ease-out backwards;
+        }
+
+        .poem-card:nth-child(1) { animation-delay: 0.1s; }
+        .poem-card:nth-child(2) { animation-delay: 0.2s; }
+        .poem-card:nth-child(3) { animation-delay: 0.3s; }
+        .poem-card:nth-child(4) { animation-delay: 0.4s; }
+        .poem-card:nth-child(5) { animation-delay: 0.5s; }
+        .poem-card:nth-child(6) { animation-delay: 0.6s; }
+        .poem-card:nth-child(7) { animation-delay: 0.7s; }
+        .poem-card:nth-child(8) { animation-delay: 0.8s; }
+    </style>
+</head>
+<body>
+    <!-- 主题切换按钮 -->
+    <button class="theme-toggle" id="themeToggle" aria-label="切换主题">
+        <svg id="sunIcon" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+        <svg id="moonIcon" viewBox="0 0 24 24" style="display: none;">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+    </button>
+
+    <div class="container">
+        <!-- 页面头部 -->
+        <header class="page-header">
+            <h1 class="page-title">詩集</h1>
+            <p class="page-quote"><i>We all write poems; it is simply that poets are the ones who write in words. --John Fowles</i></p>
+            <p class="page-description">This page presents some Chinese traditional poems written by me.</p>
+        </header>
+
+        <!-- 诗歌列表 -->
+        <article class="poem-card" data-date="2022-01-01">
+            <div class="poem-header">
+                <h2 class="poem-title">無題</h2>
+                <time class="poem-date">2025年10月15日</time>
+            </div>
+            <div class="poem-content">初來紐約天猶長，
+哈德遜河映遠光。
+今來終覺斜日短，
+此意伴月入蒼茫。</div>
+        </article>
+
+        
+        <article class="poem-card" data-date="2022-01-01">
+            <div class="poem-header">
+                <h2 class="poem-title">拜新月·雲月中秋題未名月亭</h2>
+                <time class="poem-date">2025年10月7日</time>
+            </div>
+            <div class="poem-content">覺輪闕仍滿，幻翳散還聚。
+月郭猶長久，霧珠奚如故？</div>
+        </article>
+
+        <article class="poem-card" data-date="2022-01-01">
+            <div class="poem-header">
+                <h2 class="poem-title">秋夜</h2>
+                <time class="poem-date">2022年9月12日</time>
+            </div>
+            <div class="poem-content">微波浮動疏影暗，寂寥枝頭金風寒。
+隻身憑欄誰獨倚？萬裡孤魂落葉殘。
+可憐中秋明月全，不照世間離人圓。
+應問月光流不盡，莫是廣寒天淚懸。
+何處相逢飲清酒，卻怨嬋娟相思愁。
+多情只是別離苦，明朝月落意難休。</div>
+        </article>
+
+        <article class="poem-card" data-date="2022-01-01">
+            <div class="poem-header">
+                <h2 class="poem-title">行香子 · 柒夕</h2>
+                <time class="poem-date">2022年8月7日</time>
+            </div>
+            <div class="poem-content">夏季鳴蛩，烈日當空，
+恰天上人間愁濃。
+星辰燦爛，纖雲巧弄。
+縱日昇來、月潛去，不相逢。
+
+船過空港，曠野霜降，
+嘆離別相思難窮。
+織女牽牛，莫是離中？
+時過境遷、星移轉，繞舌尖！</div>
+        </article>
+
+        <article class="poem-card" data-date="2022-01-01">
+            <div class="poem-header">
+                <h2 class="poem-title">江城子</h2>
+                <time class="poem-date">2021年11月13日</time>
+            </div>
+            <div class="poem-content">玖年寒窗兩茫茫，不思量，自難忘。
+遙望桃源，無處話淒涼。
+縱使相逢應不識，淚滿面，墨如霜。
+
+夜來幽夢忽見校，高紅牆，白瓦窗。
+相顧無言，惟有愛徬徨。
+會輓狼毫如滿月，東北望，五角場。</div>
+        </article>
+
+        <article class="poem-card" data-date="2022-01-01">
+            <div class="poem-header">
+                <h2 class="poem-title">虞美人</h2>
+                <time class="poem-date">2021年11月7日</time>
+            </div>
+            <div class="poem-content">翠翹飛盡淚空流。期中愁難休。
+華涇野店怯分數。破釜沈舟酒杯深。故人心。
+
+雲棧縈紆行人少。也送行人佬。
+一番共勉重千金。明年過我邯鄲路。話如今。</div>
+        </article>
 
 
-    <table width="100%">
-    	<tr>
-		<td width="1%"> </td>
-		<td valign="top" width="15%">
-			<h2><a href="/">Biography</a></h2>
-			<h2><a href="/publications.html">Publications</a></h2>
-			<h2><a href="https://yourwhitemoon.wordpress.com">Blog</a></h2>
-			<h2><a href="/poems.html">Poems</a></h2>
-		</td>
 
-		<td valign="top" width="84%">
-			<h2> Poems </h2>
-			<font style="line-height:135%" size="4">
-			<p><center><i>We all write poems; it is simply that poets are the ones who write in words. --John Fowles     </i></center></p>
-			This page presents some Chinese traditional poems written by me.
-			<br> <br>
+        <article class="poem-card" data-date="2022-01-01">
+            <div class="poem-header">
+                <h2 class="poem-title">朝思</h2>
+                <time class="poem-date">2023年2月24日</time>
+            </div>
+            <div class="poem-content">迷華沒已長，久滯愧無傷。
+殘漏雖堪晚，遲明未遽央。
+朝思逐旭日，曉夢踏晨霜。
+悲喜憑風徹，為吾賦律行。</div>
+        </article>
 
-			「秋夜」<br>
-			<br>
-			微波浮動疏影暗，寂寥枝頭金風寒。<br>
-			隻身憑欄誰獨倚？萬裡孤魂落葉殘。<br>
-			可憐中秋明月全，不照世間離人圓。<br>
-			應問月光流不盡，莫是廣寒天淚懸。<br>
-			何處相逢飲清酒，卻怨嬋娟相思愁。<br>
-			多情只是別離苦，明朝月落意難休。<br>
-			<br>
-			<br>
-			「行香子 · 柒夕」<br>
-			<br>
-			夏季鳴蛩，烈日當空，<br>
-			恰天上人間愁濃。<br>
-			星辰燦爛，纖雲巧弄。<br>
-			縱日昇來、月潛去，不相逢。<br>
-			<br>
-			船過空港，曠野霜降，<br>
-			嘆離別相思難窮。<br>
-			織女牽牛，莫是離中？<br>
-			時過境遷、星移，繞舌尖！<br>
-			<br>
-			<br>
-			「江城子」<br>
-			<br>
-			玖年寒窗兩茫茫，不思量，自難忘。<br>
-			遙望桃源，無處話淒涼。<br>
-			縱使相逢應不識，淚滿面，墨如霜。<br>
-			<br>
-			夜來幽夢忽見校，高紅牆，白瓦窗。<br>
-			相顧無言，惟有愛徬徨。<br>
-			會輓狼毫如滿月，東北望，五角場。<br>
-			<br>
-			<br>
-			「虞美人」<br>
-			翠翹飛盡淚空流。期中愁難休。<br>
-			華涇野店怯分數。破釜沈舟酒杯深。故人心。<br>
-			<br>
-			雲棧縈紆行人少。也送行人佬。<br>
-			一番共勉重千金。明年過我邯鄲路。話如今。<br>
-			<br>
-			<br>
-			「無題」<br>
-			<br>
-			烈夏五照申城途，秋光遠送淀山湖。<br>
-			形影華涇何所怨？奮戰朝夕礪鋒芒！<br>
-			夕陽欲收知伏案，夜半微涼初驚倦。<br>
-			遲遲燈火初長夜，耿耿星河欲曙天。<br>
-			華涇此夜皆幽暗，月曉風清無人諳！<br>
-			垂頭舉淚問初誓？遙望國權未成眠。<br>
-			合書為枕已三更，久祈光陰略稍延。<br>
-			桃源淺影常入夢，夢憶邯鄲雪時緣。<br>
-			<br>
-			<br>
-			「夢遊復附吟留別」 <br>
-			<br>
-			辛醜丁酉乙巳夜，鄙人頭痛欲裂，竟不能眠；恍驚起結緣附中已貳歲有餘，而吾之困於中和者亦壹歲有餘。遂作此片，以哀青春之夙願，慰前世之魂靈。<br>
-			<br>
-			神仙談上中，分數高高信難求；<br>
-			巨佬語復附，自招預錄或可睹。<br>
-			旦復旦兮向天橫，勢拔金茂掩申城。<br>
-			明珠四百六十米，對此欲倒東北傾。<br>
-			我欲因之夢復附，一夜飛度國權路。<br>
-			附中照我影，送我至校西。<br>
-			自招試處今尚在，清風徐來梧桐啼。<br>
-			手持圓珠筆，身着世外衣。<br>
-			半路見篤志，空中聞近思。<br>
-			博學切問路不定，迷花倚石忽已暝。<br>
-			附中大佬殷岩泉，栗萬物兮驚天地。<br>
-			雲青青兮欲雨，致中和兮生煙。<br>
-			推優霹靂，自薦崩摧。<br>
-			洞天心扉，訇然中開。<br>
-			中考分數不見底，日夜思念附中台。<br>
-			筆為弓兮墨為馬，利之箭兮紛紛而來下。<br>
-			吾無奈兮騎回車，巨之佬兮列如麻。<br>
-			忽魂悸以魄動，恍驚起而長嗟。<br>
-			惟覺時之附中，失向來之煙霞。<br>
-			求學之路亦如此，古來萬事東流水。<br>
-			別君去兮何時還？且放夙願心底間。須行即行訪名校。<br>
-			安能摧眉折腰事中和，使我不得開心顏？！<br>
-			<br>
-			<br>
-			「國初難」 <br>
-			<br>
-			噫吁籲！危乎崩哉！<br>
-			國初之難，難於上青天！<br>
-			元素與結構，物化與有機。<br>
-			爾來四萬八千題，不及此卷一題難。<br>
-			前有HF為弱酸，後有52環加成。<br>
-			高溫高壓催化劑，然後碳酸四聚成大環。<br>
-			上有平衡常數之計算，下有鋰電離能之盲猜。<br>
-			有機等級尚不得過，瞎蒙全錯愁煞人。<br>
-			國初何其難，三小時做不完！<br>
-			上週命名嫦娥石，這週國初題已來。<br>
-			構象翻轉畫不出，以手撫頭坐長嘆。<br>
-			問君競賽何時還？畏途屑題不可攀。<br>
-			但問前輩要題目，退役考生繞群間。<br>
-			又見大佬在裝菜，都是集！<br>
-			化學之繃，繃於福山題，使人聽此凋朱顏！<br>
-			努力一年三十五，四校大佬八十一。<br>
-			省隊距天不盈尺，菜狗倒掛省三線。<br>
-			難度爭相向天飛，分數個個往下探。<br>
-			其崩也如此，嗟爾高一新生胡為乎來哉！<br>
-			書堆崢嶸而崔嵬，結構當關，有機莫開。<br>
-			所學非考場，化為狼與豺狼。<br>
-			朝學物化，夕背元素。<br>
-			化工寄術，殺人如麻。<br>
-			國集雖雲樂，不如早種地。<br>
-			化競之痛，痛於高考卷，趕快退休學習！<br>
-			<br>
-			<br>
-			</font>
-		</td>
-	</tr>
-    </table>
-<!--   </body>
-</html>
-    </table> -->
+                <article class="poem-card" data-date="2022-01-01">
+            <div class="poem-header">
+                <h2 class="poem-title">無題</h2>
+                <time class="poem-date">2022年10月22日</time>
+            </div>
+            <div class="poem-content">登高意是殘雲裊，
+                天闊地博展翅高。
+                最是深秋月照時，
+                赤忱一片卷星濤。
+            </div>
+        </article>
+
+        <article class="poem-card" data-date="2022-01-01">
+            <div class="poem-header">
+                <h2 class="poem-title">再見2022</h2>
+                <time class="poem-date">2022年12月31日</time>
+            </div>
+            <div class="poem-content">雖時不待人，來年春開，必攜春考。
+                看長安花開，必攜潔月，步細細水流。
+            </div>
+        </article>
+
+        <article class="poem-card" data-date="2022-01-01">
+            <div class="poem-header">
+                <h2 class="poem-title">無題</h2>
+                <time class="poem-date">2022年1月23日</time>
+            </div>
+            <div class="poem-content">烈夏五照申城途，秋光遠送淀山湖。
+形影華涇何所怨？奮戰朝夕礪鋒芒！
+夕陽欲收知伏案，夜半微涼初驚倦。
+遲遲燈火初長夜，耿耿星河欲曙天。
+華涇此夜皆幽暗，月曉風清無人諳！
+垂頭舉淚問初誓？遙望國權未成眠。
+合書為枕已三更，久祈光陰略稍延。
+桃源淺影常入夢，夢憶邯鄲雪時緣。</div>
+        </article>
 
 
-    <div style="position: fixed; bottom: 0; width: 100%; text-align: center; background-color: #f8f8f8; padding: 10px 0; border-top: 1px solid #ccc;">
-        <a href="https://icp.gov.moe/?keyword=20250101" target="_blank">萌ICP备20250101号</a>
+        <article class="poem-card" data-date="2022-01-01">
+            <div class="poem-header">
+                <h2 class="poem-title">無題</h2>
+                <time class="poem-date">2022年3月19日</time>
+            </div>
+            <div class="poem-content">參年磨劍百日煉，只盼來年榜中現。
+昨夜未眠時三更，今朝已覽書萬卷。
+春來依舊風瑟瑟，危樓已是月朦朧。
+長河必有分流處，漂搖入海待重逢。</div>
+        </article>
+
+
+
+
+
+
+        <article class="poem-card" data-date="2022-01-01">
+            <div class="poem-header">
+                <h2 class="poem-title">無題</h2>
+                <time class="poem-date">2022年4月16日</time>
+            </div>
+            <div class="poem-content">參載復仇路漫漫，遙望國權淚不乾。
+雲間相逢無所言，只盼來年榜中見。
+出生入物其積厚，日月双刃為今試。
+縵縵卿雲照我影，願聞雛鳳第壹鳴。</div>
+        </article>
+
+
+
+        <article class="poem-card" data-date="2022-01-01">
+            <div class="poem-header">
+                <h2 class="poem-title">致中和</h2>
+                <time class="poem-date">2022年6月20日</time>
+            </div>
+            <div class="poem-content">位列徐匯區第三，教書獄人不一般。
+天天秀著優越感，不知已是盤中餐。
+慢慢悠悠拖進度，接近高三猛驚醒。
+生物地理漸分手，發現啥也沒講完。
+華涇此夜皆幽暗，月曉風清何人諳？
+遲遲燈火初長夜，耿耿星河欲曙天。
+漫天作業堆如山，快馬加鞭未下鞍。
+同學相顧盡沾衣，遙望國權淚花寒。</div>
+        </article>
+
+
+
+        <article class="poem-card" data-date="2022-01-01">
+            <div class="poem-header">
+                <h2 class="poem-title">夢遊復附吟留別</h2>
+                <time class="poem-date">2021年10月1日</time>
+            </div>
+            <div class="poem-content">辛醜丁酉乙巳夜，鄙人頭痛欲裂，竟不能眠；恍驚起結緣附中已貳歲有餘，而吾之困於中和者亦壹歲有餘。遂作此片，以哀青春之夙願，慰前世之魂靈。
+
+神仙談上中，分數高高信難求；
+巨佬語復附，自招預錄或可睹。
+旦復旦兮向天橫，勢拔金茂掩申城。
+明珠四百六十米，對此欲倒東北傾。
+我欲因之夢復附，一夜飛度國權路。
+附中照我影，送我至校西。
+自招試處今尚在，清風徐來梧桐啼。
+手持圓珠筆，身着世外衣。
+半路見篤志，空中聞近思。
+博學切問路不定，迷花倚石忽已暝。
+附中大佬殷岩泉，栗萬物兮驚天地。
+雲青青兮欲雨，致中和兮生煙。
+推優霹靂，自薦崩摧。
+洞天心扉，訇然中開。
+中考分數不見底，日夜思念附中台。
+筆為弓兮墨為馬，利之箭兮紛紛而來下。
+吾無奈兮騎回車，巨之佬兮列如麻。
+忽魂悸以魄動，恍驚起而長嗟。
+惟覺時之附中，失向來之煙霞。
+求學之路亦如此，古來萬事東流水。
+別君去兮何時還？且放夙願心底間。須行即行訪名校。
+安能摧眉折腰事中和，使我不得開心顏？！</div>
+        </article>
+
+
+
+
+
+
+
+        <article class="poem-card" data-date="2022-01-01">
+            <div class="poem-header">
+                <h2 class="poem-title">西部牧歌
+</h2>
+                <time class="poem-date">2021年7月15日</time>
+            </div>
+            <div class="poem-content">夜幕獨釣沼澤岸，
+牛羊四散未可栓。
+我寄愁心與明月，
+明月何時照我還？</div>
+        </article>
+
+
+
+
+
+
+
+
+
+
+
+        <article class="poem-card" data-date="2022-01-01">
+            <div class="poem-header">
+                <h2 class="poem-title">國初難</h2>
+                <time class="poem-date">2022年9月4日</time>
+            </div>
+            <div class="poem-content">噫吁籲！危乎崩哉！
+國初之難，難於上青天！
+元素與結構，物化與有機。
+爾來四萬八千題，不及此卷一題難。
+前有HF為弱酸，後有52環加成。
+高溫高壓催化劑，然後碳酸四聚成大環。
+上有平衡常數之計算，下有鋰電離能之盲猜。
+有機等級尚不得過，瞎蒙全錯愁煞人。
+國初何其難，三小時做不完！
+上週命名嫦娥石，這週國初題已來。
+構象翻轉畫不出，以手撫頭坐長嘆。
+問君競賽何時還？畏途屑題不可攀。
+但問前輩要題目，退役考生繞群間。
+又見大佬在裝菜，都是集！
+化學之繃，繃於福山題，使人聽此凋朱顏！
+努力一年三十五，四校大佬八十一。
+省隊距天不盈尺，菜狗倒掛省三線。
+難度爭相向天飛，分數個個往下探。
+其崩也如此，嗟爾高一新生胡為乎來哉！
+書堆崢嶸而崔嵬，結構當關，有機莫開。
+所學非考場，化為狼與豺狼。
+朝學物化，夕背元素。
+化工寄術，殺人如麻。
+國集雖雲樂，不如早種地。
+化競之痛，痛於高考卷，趕快退休學習！</div>
+        </article>
+
+
+
+
+
+
+        <article class="poem-card" data-date="2022-01-01">
+            <div class="poem-header">
+                <h2 class="poem-title">江城子</h2>
+                <time class="poem-date">2021年11月12日</time>
+            </div>
+            <div class="poem-content">老夫聊發少年狂，左《赤壁》，右《阿房》。
+                自習室中，點乘算向量。
+                為學平衡夜裡忙，親制鹼，侯德榜。
+
+                硝酸亞鐵不穩定，加鹽酸，變棕黃。
+                萬物生長，線粒體耗氧。
+                垂直施力不做功，定滑輪，電磁場。</div>
+        </article>        
+
+
+        <article class="poem-card" data-date="2022-01-01">
+            <div class="poem-header">
+                <h2 class="poem-title">蝶戀花</h2>
+                <time class="poem-date">未知日期</time>
+            </div>
+            <div class="poem-content">佇倚危樓風細細，望極春愁，黯黯生天際。
+                草色煙光殘照裡，無言誰會憑闌意。
+
+擬把圓規圖一隊，添輔助線，強解還不對。
+衣帶漸寬終不悔，為伊消得人憔悴。</div>
+        </article>        
+
+
+        <article class="poem-card" data-date="2021-11-12">
+            <div class="poem-header">
+                <h2 class="poem-title">虹漕南</h2>
+                <time class="poem-date">2019年某月某日</time>
+            </div>
+            <div class="poem-content">同學已乘校車去，此地空余教學樓。
+校車一去不復返，白雲千載空悠悠。
+晴川麗麗操場樹，午飯難吃玉米粥。
+日暮校關何處時，作業甚多使人愁。</div>
+        </article>  
+
+
+
+
+
+
+
+        <article class="poem-card" data-date="2021-11-12">
+            <div class="poem-header">
+                <h2 class="poem-title">放言</h2>
+                <time class="poem-date">2021年11月12日</time>
+            </div>
+            <div class="poem-content">贈君一法決平移，不用圓規與直尺。
+制氨要制三日滿，不加催化七年期。
+大氣環流終止日，羧酸循環未逝時。
+鄉使當初身便死，真偽命題復誰知？</div>
+        </article>  
+
+
+
+
+
+        <article class="poem-card" data-date="2022-01-01">
+            <div class="poem-header">
+                <h2 class="poem-title">月下集序
+</h2>
+                <time class="poem-date">2023年2月25日</time>
+            </div>
+            <div class="poem-content">吾月下賦詩填詞參余載，感人生無用久矣，故為拙作《月下集》。今作序，曰月下集序。
+
+                
+                寒窗玖年，歲在庚子，暮春之初，會於國權路西之江灣，自招事也。群賢畢至，巨佬咸集。此地有博學篤志，切問近思，又有光華日月，旦復旦兮，引以為旦華魚池，列坐其次。雖無疆場硝煙瀰漫，一筆一畫，亦足以暢敘豪情。
+
+次歲也，訇然崩摧，淪落華涇。仰觀四校之大，俯察吾伲之衰，所以決眥東北，足以極意淫之娛，而自哀也。
+
+夫求學之路，掙扎一世。或取諸中考，悟言爛在六月；或放手一搏，游離體制之外。雖趣捨萬殊，道路不同，當其欣於所遇，暫得於己，快然自足，不知青春將止；及其所之失意，情隨事遷，感慨系之矣。鄉之所念，參載之間，化為夙願，猶不能不以之興懷，況日月與共，風雲變幻！古人雲：“人生莫測矣。”豈不痛哉！
+
+每覽同窗興感之由，若合吾思，未嘗不聞之涕零，不能喻之於懷。固知一優劣為虛誕，齊良莠為妄作。伊之視吾，亦猶吾之視伊，悲夫！故列敘故事，錄吾所願，雖時過境遷，星移鬥轉，所愛一也。後之覽者，亦將有感於斯文。
+
+癸卯甲寅甲寅 滬 記</div>
+        </article>
+
+
+
+
+
+
+
+
+
+
+        <article class="poem-card" data-date="2022-01-01">
+            <div class="poem-header">
+                <h2 class="poem-title">浦江賦</h2>
+                <time class="poem-date">2021年8月25日</time>
+            </div>
+            <div class="poem-content">辛丑之秋，七月既望，吾與客泛舟游於浦江之上。狂風急來，下雨不停。舉茶屬客，誦稼軒之詞，歌韓愈之章。少焉，月出於明珠之上，徘徊於斗牛之間。盧浦橫江，彩光接天。縱輪渡之所如，凌萬頃之茫然。浩浩乎如電子自旋，而不知其所止；飄飄乎如分子斷鍵，酯化而登氙。
+
+於是飲茶樂甚，扣舷而歌之。歌曰：「巨佬兮賣菜，擊菜雞兮頹如恍。渺渺兮予懷，望巨佬兮天一方。」客有吹口琴者，倚歌而和之。其聲嗚嗚然，如怨如慕，如泣如訴；余音裊裊，不絕如縷。舞四校之巨佬，泣孤舟之菜雞。
+
+吾愀然，正襟危坐，而問客曰：「何為其然也？」 客曰：「『此題不難，有手就行。』此非巨佬之言乎？前翻月考，後翻周測，勾叉相繆，彤乎煌煌，此非巨佬之困於數列者乎？方其破化學，下物理，揮毫千裡，草稿蔽空，釃茶臨卷，橫筆賦詩，固一世之神也，而今安好哉？況吾與子做題於薈育樓中，侶筆墨而友卡西歐，畫一頁之對勾，標頂點以分類，溺陸龜於學海，渺摩爾之電子，哀吾見之短淺，羨《數歸》之無窮，挾柯西以遨游，報高分而長終。知不可乎驟得，托遺響於悲風。」
+  
+吾曰：「客亦知夫卡西歐乎？卷者如斯，而未嘗做也；賣菜者如彼，而卒莫滿分也。蓋將自其變者而觀之，則卡西歐亦不能以一解；自其不變者而觀之，則題與我皆簡單也，而又何羨乎！且夫試卷之間，難易有主，苟非吾之所能，雖一分而莫得。惟江上之清風，與浦東之高樓，耳得之而為聲，目遇之而成色，取之無禁，用之不竭。是造物者之無盡藏也，而吾與子之所共適。」
+
+客喜而笑，洗盞更酌。筆墨既盡，試卷狼籍。相與暢談乎舟中，不知東方之既白。</div>
+        </article>
+
+
+
+
+
     </div>
-  </body>
+
+    <script>
+        // 主题切换功能
+        const themeToggle = document.getElementById('themeToggle');
+        const sunIcon = document.getElementById('sunIcon');
+        const moonIcon = document.getElementById('moonIcon');
+        const html = document.documentElement;
+
+        // 检测系统主题偏好
+        function getPreferredTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                return savedTheme;
+            }
+            return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+
+        // 设置主题
+        function setTheme(theme) {
+            html.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            
+            if (theme === 'dark') {
+                sunIcon.style.display = 'none';
+                moonIcon.style.display = 'block';
+            } else {
+                sunIcon.style.display = 'block';
+                moonIcon.style.display = 'none';
+            }
+        }
+
+        // 初始化主题
+        setTheme(getPreferredTheme());
+
+        // 切换主题
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            setTheme(newTheme);
+        });
+
+        // 监听系统主题变化
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+            if (!localStorage.getItem('theme')) {
+                setTheme(e.matches ? 'dark' : 'light');
+            }
+        });
+    </script>
+</body>
 </html>
